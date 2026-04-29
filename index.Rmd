@@ -4,7 +4,7 @@ output:
   html_document:
     toc: false
     number_sections: false
-author: "by: Your Name"
+author: "by: Marieke Boot"
 bibliography: references.bib
 
 ---
@@ -12,7 +12,7 @@ bibliography: references.bib
 
 ```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
 # install.packages("remotes")
-#remotes::install_github("rlesur/klippy")
+# remotes::install_github("rlesur/klippy")
 ``` 
 
 ```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
@@ -31,8 +31,8 @@ colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", co
 
 ```{r klippy, echo=FALSE, include=TRUE}
 klippy::klippy(position = c('top', 'right'))
-#klippy::klippy(color = 'darkred')
-#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+# klippy::klippy(color = 'darkred')
+# klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
 ```
 
 
@@ -46,7 +46,7 @@ klippy::klippy(position = c('top', 'right'))
 # My Lab Journal
 Last compiled on `r format(Sys.time(), '%B, %Y')`  
 
-*Describe lab journal here.*
+*This is my SASR8 Lab Journal. I will use this journal to track changes to my code?*
 
 <br>
 
