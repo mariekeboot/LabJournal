@@ -5,6 +5,7 @@ output_dir: "docs"
 exclude: 
   - "data"
   - "_test"
+  - "personal"
 bibliography: references.bib
 navbar:
   left:
