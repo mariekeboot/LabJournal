@@ -14,7 +14,7 @@ navbar:
     - text: "My journal"
       menu:
       - text: "Tutorials week 1"
-        href: .html
+        href: tutorial_1.html
       - text: "Page 2"
         href: test_rmd.html
         
