@@ -78,9 +78,15 @@ g_elist_from_alist <- g_adj_list %>%
   melt(id.vars = "id") %>%
   filter(!is.na(value)) %>%
   rename(from ="id", to = "value", sourcevar= "variable") %>% 
-  relocate(to, .after=from) %>%
-  graph_from_data_frame(, vertices = select(g_adj_list,id,age)) %>%
-  plot()
+  relocate(to, .after=from)
+
+g_from_aalist <- graph_from_data_frame(
+  g_elist_from_alist,
+  vertices = select(g_adj_list, id, age)
+)
+
+plot(g_from_aalist)
+
 ```
 1.2.1
 ```{r}
@@ -137,7 +143,6 @@ plot(g_undir)
 # Answer: One is undirected and one is directed in both directions.
 ```
 
----
 2
 ```{r}
 library(igraph)
@@ -194,3 +199,60 @@ z <- z %>%
 V(z)$closeness <- closeness(z)
 ```
 
+3
+```{r}
+library(igraph)
+library(haven) # to read Stata files
+library(reshape2)
+library(tidyverse)
+```
+3.1
+```{r}
+PupilsWaveV <- read_dta(file = "PupilsWaveV.dta")
+head(PupilsWaveV)
+tail(PupilsWaveV)
+class12b <- PupilsWaveV %>% 
+  filter(schoolnr == "12b")  # keep only one class
+```
+3.2
+```{r}
+# 1 Adjacency list to igraph 
+p_elist_from_alist <- class12b %>%
+  select(namenr, friend1:friend12) %>%
+  melt(id.vars = "namenr") %>%
+  filter(!is.na(value)) %>%
+  rename(from ="namenr", to = "value", sourcevar= "variable") %>% 
+  relocate(to, .after=from)
+p_aalist <- graph_from_data_frame(p_elist_from_alist, vertices = select(class12b,namenr,age,sex))
+p <- p_aalist
+# 2 Checking if directed
+is_directed(p)
+# 3 Visualize
+plot(p)
+# 4 Five number summary
+vcount(p)
+ecount(p)
+edge_density(p)
+count_components(p)
+diameter(p)
+mean_distance(p)
+transitivity(p, type = "average")
+# 5 Test hypothesis that girls have higher degree than boys
+deg <- degree(p)
+df_deg <- data.frame(
+  sex    = V(p)$sex,
+  degree = deg
+)
+t.test(degree~sex, data = df_deg, alternative = "greater")
+# 6
+#We add  + 8 to degree to avoid that the lowest-degree nodes become really small and specify margin = -0.1 to reduce the whitespace around the plot
+V(p)$degree <- degree(p)
+plot(p, vertex.size = V(p)$degree+8, vertex.color = V(p)$sex, margin= -0.1)
+```
+
+4
+```{r}
+library(spdep) #We need the spdep package for the spatial weight matrix and for the Moran's I test
+library(spatialreg) #We need the spatialreg package for the spatial lag and spatial error models
+```
+4.1
