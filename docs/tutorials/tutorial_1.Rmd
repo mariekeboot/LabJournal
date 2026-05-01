@@ -1,6 +1,8 @@
 ---
 title: "tutorial_1"
-output: html_document
+output:
+  html_document:
+    self_contained: false
 ---
 
 Loading some packages 
