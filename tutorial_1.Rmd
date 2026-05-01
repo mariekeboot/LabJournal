@@ -5,6 +5,7 @@ output:
     self_contained: false
 ---
 
+# 1 
 Loading some packages 
 ```{r}
 library(network)
@@ -145,7 +146,7 @@ plot(g_undir)
 # Answer: One is undirected and one is directed in both directions.
 ```
 
-2
+# 2
 ```{r}
 library(igraph)
 z <- make_graph("Zachary")
@@ -201,7 +202,7 @@ z <- z %>%
 V(z)$closeness <- closeness(z)
 ```
 
-3
+# 3
 ```{r}
 library(igraph)
 library(haven) # to read Stata files
@@ -252,7 +253,7 @@ V(p)$degree <- degree(p)
 plot(p, vertex.size = V(p)$degree+8, vertex.color = V(p)$sex, margin= -0.1)
 ```
 
-4
+# 4
 ```{r}
 library(spdep) #We need the spdep package for the spatial weight matrix and for the Moran's I test
 library(spatialreg) #We need the spatialreg package for the spatial lag and spatial error models

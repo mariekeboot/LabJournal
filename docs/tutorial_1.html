@@ -13,13 +13,13 @@
 
 <title>tutorial_1</title>
 
-<script src="tutorial_1_files/header-attrs-2.30/header-attrs.js"></script>
-<script src="tutorial_1_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="tutorial_1_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="tutorial_1_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="tutorial_1_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="tutorial_1_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <style>h1 {font-size: 34px;}
        h1.title {font-size: 38px;}
        h2 {font-size: 30px;}
@@ -29,9 +29,16 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="tutorial_1_files/navigation-1.1/tabsets.js"></script>
-<link href="tutorial_1_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="tutorial_1_files/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -56,8 +63,14 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
 
 
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
 
 
 
@@ -91,6 +104,80 @@ pre code {
 </style>
 
 
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
 
 <!-- tabsets -->
 
@@ -142,7 +229,73 @@ pre code {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -154,9 +307,75 @@ pre code {
 <div class="container-fluid main-container">
 
 
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
 
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tutorial_1.html">Tutorials week 1</a>
+    </li>
+    <li>
+      <a href="test_rmd.html">Page 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/LabJournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
 
 <div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
 
 
 
@@ -165,6 +384,8 @@ pre code {
 </div>
 
 
+<div id="section" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> 1</h1>
 <p>Loading some packages</p>
 <pre class="r"><code>library(network)</code></pre>
 <pre><code>## Warning: package &#39;network&#39; was built under R version 4.5.3</code></pre>
@@ -178,10 +399,9 @@ pre code {
 ## Attaching package: &#39;igraph&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:network&#39;:
 ## 
-##     %c%, %s%, add.edges, add.vertices, delete.edges, delete.vertices,
-##     get.edge.attribute, get.edges, get.vertex.attribute, is.bipartite,
-##     is.directed, list.edge.attributes, list.vertex.attributes,
-##     set.edge.attribute, set.vertex.attribute</code></pre>
+##     %c%, %s%, add.edges, add.vertices, delete.edges, delete.vertices, get.edge.attribute,
+##     get.edges, get.vertex.attribute, is.bipartite, is.directed, list.edge.attributes,
+##     list.vertex.attributes, set.edge.attribute, set.vertex.attribute</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
 ## 
 ##     decompose, spectrum</code></pre>
@@ -190,13 +410,13 @@ pre code {
 ##     union</code></pre>
 <pre class="r"><code>library(reshape2)
 library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+<pre><code>## ── Attaching core tidyverse pa
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.6
 ## ✔ forcats   1.0.1     ✔ stringr   1.6.0
 ## ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
 ## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 ## ✔ purrr     1.2.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────
 ## ✖ lubridate::%--%()      masks igraph::%--%()
 ## ✖ dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
 ## ✖ purrr::compose()       masks igraph::compose()
@@ -247,9 +467,9 @@ g_nodes_age</code></pre>
 class(g)</code></pre>
 <pre><code>## [1] &quot;igraph&quot;</code></pre>
 <pre class="r"><code>g</code></pre>
-<pre><code>## IGRAPH 92a3d12 DN-- 5 4 -- 
+<pre><code>## IGRAPH 90a0fe7 DN-- 5 4 -- 
 ## + attr: name (v/c)
-## + edges from 92a3d12 (vertex names):
+## + edges from 90a0fe7 (vertex names):
 ## [1] 1-&gt;2 1-&gt;4 2-&gt;3 3-&gt;1</code></pre>
 <pre class="r"><code>plot(g)</code></pre>
 <p><img src="tutorial_1_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
@@ -389,7 +609,7 @@ d &lt;- edgelist_2 %&gt;%
   relocate(age, .after = id) %&gt;% 
   type_convert() #as_data_frame returns characters; this transforms it back to numeric</code></pre>
 <pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────
 ## cols(
 ##   id = col_double(),
 ##   friend1 = col_double(),
@@ -432,18 +652,24 @@ plot(g_mod)</code></pre>
 <p><img src="tutorial_1_files/figure-html/unnamed-chunk-9-2.png" alt="" width="672" /></p>
 <pre class="r"><code># Assignment
 g_mod &lt;- delete.vertices(g,which(is.na(V(g)$age)))</code></pre>
-<pre><code>## Warning: `delete.vertices()` was deprecated in igraph 2.0.0.
-## ℹ Please use `delete_vertices()` instead.
-## This warning is displayed once per session.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+<pre><code>## Warning: `delete.vertices()` was
+## deprecated in igraph 2.0.0.
+## ℹ Please use
+##   `delete_vertices()`
+##   instead.
+## This warning is displayed
+## once per session.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
 ## generated.</code></pre>
 <pre class="r"><code>plot(g_mod)</code></pre>
 <p><img src="tutorial_1_files/figure-html/unnamed-chunk-9-3.png" alt="" width="672" /></p>
 <pre class="r"><code>V(g)$gender &lt;- c(&quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;other&quot;, &quot;male&quot;) 
 g</code></pre>
-<pre><code>## IGRAPH 92a3d12 DN-- 5 4 -- 
+<pre><code>## IGRAPH 90a0fe7 DN-- 5 4 -- 
 ## + attr: name (v/c), age (v/n), gender (v/c)
-## + edges from 92a3d12 (vertex names):
+## + edges from 90a0fe7 (vertex names):
 ## [1] 1-&gt;2 1-&gt;4 2-&gt;3 3-&gt;1</code></pre>
 <pre class="r"><code>g_rev &lt;- reverse_edges(g)
 plot(g_rev)</code></pre>
@@ -456,21 +682,21 @@ plot(g_union)</code></pre>
 plot(g_undir)</code></pre>
 <p><img src="tutorial_1_files/figure-html/unnamed-chunk-9-6.png" alt="" width="672" /></p>
 <pre class="r"><code># Answer: One is undirected and one is directed in both directions.</code></pre>
-<p>2</p>
+</div>
+<div id="section-1" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> 2</h1>
 <pre class="r"><code>library(igraph)
 z &lt;- make_graph(&quot;Zachary&quot;)
 z</code></pre>
-<pre><code>## IGRAPH 94fe8f1 U--- 34 78 -- Zachary
+<pre><code>## IGRAPH 91e58a1 U--- 34 78 -- Zachary
 ## + attr: name (g/c)
-## + edges from 94fe8f1:
-##  [1]  1-- 2  1-- 3  1-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--11  1--12
-## [11]  1--13  1--14  1--18  1--20  1--22  1--32  2-- 3  2-- 4  2-- 8  2--14
-## [21]  2--18  2--20  2--22  2--31  3-- 4  3-- 8  3--28  3--29  3--33  3--10
-## [31]  3-- 9  3--14  4-- 8  4--13  4--14  5-- 7  5--11  6-- 7  6--11  6--17
-## [41]  7--17  9--31  9--33  9--34 10--34 14--34 15--33 15--34 16--33 16--34
-## [51] 19--33 19--34 20--34 21--33 21--34 23--33 23--34 24--26 24--28 24--33
-## [61] 24--34 24--30 25--26 25--28 25--32 26--32 27--30 27--34 28--34 29--32
-## [71] 29--34 30--33 30--34 31--33 31--34 32--33 32--34 33--34</code></pre>
+## + edges from 91e58a1:
+##  [1]  1-- 2  1-- 3  1-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--11  1--12  1--13  1--14  1--18
+## [14]  1--20  1--22  1--32  2-- 3  2-- 4  2-- 8  2--14  2--18  2--20  2--22  2--31  3-- 4  3-- 8
+## [27]  3--28  3--29  3--33  3--10  3-- 9  3--14  4-- 8  4--13  4--14  5-- 7  5--11  6-- 7  6--11
+## [40]  6--17  7--17  9--31  9--33  9--34 10--34 14--34 15--33 15--34 16--33 16--34 19--33 19--34
+## [53] 20--34 21--33 21--34 23--33 23--34 24--26 24--28 24--33 24--34 24--30 25--26 25--28 25--32
+## [66] 26--32 27--30 27--34 28--34 29--32 29--34 30--33 30--34 31--33 31--34 32--33 32--34 33--34</code></pre>
 <pre class="r"><code>plot(z)</code></pre>
 <p><img src="tutorial_1_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
 <pre class="r"><code>is_directed(z)</code></pre>
@@ -485,17 +711,15 @@ z</code></pre>
 <pre><code>## [1] 0.1390374</code></pre>
 <pre class="r"><code>z$density &lt;- edge_density(z)
 z</code></pre>
-<pre><code>## IGRAPH 94fe8f1 U--- 34 78 -- Zachary
+<pre><code>## IGRAPH 91e58a1 U--- 34 78 -- Zachary
 ## + attr: name (g/c), density (g/n)
-## + edges from 94fe8f1:
-##  [1]  1-- 2  1-- 3  1-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--11  1--12
-## [11]  1--13  1--14  1--18  1--20  1--22  1--32  2-- 3  2-- 4  2-- 8  2--14
-## [21]  2--18  2--20  2--22  2--31  3-- 4  3-- 8  3--28  3--29  3--33  3--10
-## [31]  3-- 9  3--14  4-- 8  4--13  4--14  5-- 7  5--11  6-- 7  6--11  6--17
-## [41]  7--17  9--31  9--33  9--34 10--34 14--34 15--33 15--34 16--33 16--34
-## [51] 19--33 19--34 20--34 21--33 21--34 23--33 23--34 24--26 24--28 24--33
-## [61] 24--34 24--30 25--26 25--28 25--32 26--32 27--30 27--34 28--34 29--32
-## [71] 29--34 30--33 30--34 31--33 31--34 32--33 32--34 33--34</code></pre>
+## + edges from 91e58a1:
+##  [1]  1-- 2  1-- 3  1-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--11  1--12  1--13  1--14  1--18
+## [14]  1--20  1--22  1--32  2-- 3  2-- 4  2-- 8  2--14  2--18  2--20  2--22  2--31  3-- 4  3-- 8
+## [27]  3--28  3--29  3--33  3--10  3-- 9  3--14  4-- 8  4--13  4--14  5-- 7  5--11  6-- 7  6--11
+## [40]  6--17  7--17  9--31  9--33  9--34 10--34 14--34 15--33 15--34 16--33 16--34 19--33 19--34
+## [53] 20--34 21--33 21--34 23--33 23--34 24--26 24--28 24--33 24--34 24--30 25--26 25--28 25--32
+## [66] 26--32 27--30 27--34 28--34 29--32 29--34 30--33 30--34 31--33 31--34 32--33 32--34 33--34</code></pre>
 <p>2.1.3</p>
 <pre class="r"><code>count_components(z)</code></pre>
 <pre><code>## [1] 1</code></pre>
@@ -509,8 +733,8 @@ z</code></pre>
 <pre><code>## [1] 0.5879306</code></pre>
 <p>2.2.1</p>
 <pre class="r"><code>degree(z)</code></pre>
-<pre><code>##  [1] 16  9 10  6  3  4  4  4  5  2  3  1  2  5  2  2  2  2  2  3  2  2  2  5  3
-## [26]  3  2  4  3  4  4  6 12 17</code></pre>
+<pre><code>##  [1] 16  9 10  6  3  4  4  4  5  2  3  1  2  5  2  2  2  2  2  3  2  2  2  5  3  3  2  4  3  4  4  6
+## [33] 12 17</code></pre>
 <pre class="r"><code>summary(degree(z))</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   1.000   2.000   3.000   4.588   5.000  17.000</code></pre>
@@ -524,12 +748,11 @@ plot(z, vertex.size = V(z)$degree+8, margin= -0.1)</code></pre>
 <pre><code>## [1] 10</code></pre>
 <p>2.2.2</p>
 <pre class="r"><code>betweenness(z)</code></pre>
-<pre><code>##  [1] 231.0714286  28.4785714  75.8507937   6.2880952   0.3333333  15.8333333
-##  [7]  15.8333333   0.0000000  29.5293651   0.4476190   0.3333333   0.0000000
-## [13]   0.0000000  24.2158730   0.0000000   0.0000000   0.0000000   0.0000000
-## [19]   0.0000000  17.1468254   0.0000000   0.0000000   0.0000000   9.3000000
-## [25]   1.1666667   2.0277778   0.0000000  11.7920635   0.9476190   1.5428571
-## [31]   7.6095238  73.0095238  76.6904762 160.5515873</code></pre>
+<pre><code>##  [1] 231.0714286  28.4785714  75.8507937   6.2880952   0.3333333  15.8333333  15.8333333   0.0000000
+##  [9]  29.5293651   0.4476190   0.3333333   0.0000000   0.0000000  24.2158730   0.0000000   0.0000000
+## [17]   0.0000000   0.0000000   0.0000000  17.1468254   0.0000000   0.0000000   0.0000000   9.3000000
+## [25]   1.1666667   2.0277778   0.0000000  11.7920635   0.9476190   1.5428571   7.6095238  73.0095238
+## [33]  76.6904762 160.5515873</code></pre>
 <pre class="r"><code>z &lt;- z %&gt;% 
   set_vertex_attr(
     name = &quot;betweenness&quot;,
@@ -537,7 +760,9 @@ plot(z, vertex.size = V(z)$degree+8, margin= -0.1)</code></pre>
   )</code></pre>
 <p>2.2.3</p>
 <pre class="r"><code>V(z)$closeness &lt;- closeness(z)</code></pre>
-<p>3</p>
+</div>
+<div id="section-2" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> 3</h1>
 <pre class="r"><code>library(igraph)
 library(haven) # to read Stata files
 library(reshape2)
@@ -546,38 +771,38 @@ library(tidyverse)</code></pre>
 <pre class="r"><code>PupilsWaveV &lt;- read_dta(file = &quot;PupilsWaveV.dta&quot;)
 head(PupilsWaveV)</code></pre>
 <pre><code>## # A tibble: 6 × 423
-##    date schoolnr namenr advice     sex       age place1   place2  siblings money
-##   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl+lbl&gt;  &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1  1709 01a           1 NA         2 [mal…    12 NA       1 [tow…        3    NA
-## 2  1709 01a           2  5 [VMBO-… 2 [mal…    13  1 [fat… 1 [tow…        1    20
-## 3  1709 01a           3 NA         1 [fem…    13  1 [fat… 1 [tow…        8    NA
-## 4  1709 01a           4 NA         2 [mal…    13  1 [fat… 1 [tow…        2    30
-## 5  1709 01a           5 NA         1 [fem…    13  1 [fat… 1 [tow…        2    NA
-## 6  1709 01a           6 NA         2 [mal…    13  1 [fat… 1 [tow…        5    40
-## # ℹ 413 more variables: amoufria &lt;dbl+lbl&gt;, impofria &lt;dbl+lbl&gt;,
-## #   pracsup1 &lt;dbl+lbl&gt;, pracsup2 &lt;dbl+lbl&gt;, pracsup3 &lt;dbl+lbl&gt;,
-## #   pracsup4 &lt;dbl+lbl&gt;, pracsup5 &lt;dbl+lbl&gt;, pracsup6 &lt;dbl+lbl&gt;,
-## #   pracsup7 &lt;dbl+lbl&gt;, pracsup8 &lt;dbl+lbl&gt;, pracsup9 &lt;dbl+lbl&gt;,
-## #   pracsu10 &lt;dbl+lbl&gt;, pracsu11 &lt;dbl+lbl&gt;, pracsu12 &lt;dbl+lbl&gt;,
-## #   emosup1 &lt;dbl+lbl&gt;, emosup2 &lt;dbl+lbl&gt;, emosup3 &lt;dbl+lbl&gt;, emosup4 &lt;dbl+lbl&gt;,
-## #   emosup5 &lt;dbl+lbl&gt;, emosup6 &lt;dbl+lbl&gt;, emosup7 &lt;dbl+lbl&gt;, …</code></pre>
+##    date schoolnr namenr advice       sex       age place1   place2  siblings money amoufria impofria
+##   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl+lbl&gt;    &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt;
+## 1  1709 01a           1 NA           2 [mal…    12 NA       1 [tow…        3    NA 1 [clas… 1 [clas…
+## 2  1709 01a           2  5 [VMBO-th… 2 [mal…    13  1 [fat… 1 [tow…        1    20 3 [outs… 3 [outs…
+## 3  1709 01a           3 NA           1 [fem…    13  1 [fat… 1 [tow…        8    NA 2 [scho… 1 [clas…
+## 4  1709 01a           4 NA           2 [mal…    13  1 [fat… 1 [tow…        2    30 2 [scho… 1 [clas…
+## 5  1709 01a           5 NA           1 [fem…    13  1 [fat… 1 [tow…        2    NA 1 [clas… 1 [clas…
+## 6  1709 01a           6 NA           2 [mal…    13  1 [fat… 1 [tow…        5    40 8 [clas… 1 [clas…
+## # ℹ 411 more variables: pracsup1 &lt;dbl+lbl&gt;, pracsup2 &lt;dbl+lbl&gt;, pracsup3 &lt;dbl+lbl&gt;,
+## #   pracsup4 &lt;dbl+lbl&gt;, pracsup5 &lt;dbl+lbl&gt;, pracsup6 &lt;dbl+lbl&gt;, pracsup7 &lt;dbl+lbl&gt;,
+## #   pracsup8 &lt;dbl+lbl&gt;, pracsup9 &lt;dbl+lbl&gt;, pracsu10 &lt;dbl+lbl&gt;, pracsu11 &lt;dbl+lbl&gt;,
+## #   pracsu12 &lt;dbl+lbl&gt;, emosup1 &lt;dbl+lbl&gt;, emosup2 &lt;dbl+lbl&gt;, emosup3 &lt;dbl+lbl&gt;, emosup4 &lt;dbl+lbl&gt;,
+## #   emosup5 &lt;dbl+lbl&gt;, emosup6 &lt;dbl+lbl&gt;, emosup7 &lt;dbl+lbl&gt;, emosup8 &lt;dbl+lbl&gt;, emosup9 &lt;dbl+lbl&gt;,
+## #   emosup10 &lt;dbl+lbl&gt;, emosup11 &lt;dbl+lbl&gt;, emosup12 &lt;dbl+lbl&gt;, basis1 &lt;dbl+lbl&gt;, basis2 &lt;dbl+lbl&gt;,
+## #   basis3 &lt;dbl+lbl&gt;, basis4 &lt;dbl+lbl&gt;, basis5 &lt;dbl+lbl&gt;, basis6 &lt;dbl+lbl&gt;, basis7 &lt;dbl+lbl&gt;, …</code></pre>
 <pre class="r"><code>tail(PupilsWaveV)</code></pre>
 <pre><code>## # A tibble: 6 × 423
-##    date schoolnr namenr advice      sex       age place1  place2  siblings money
-##   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl+lbl&gt;   &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1  2808 14h          12  2 [LWOO/V… 1 [fem…    13 1 [fat… 1 [tow…        1    10
-## 2  2808 14h          13  2 [LWOO/V… 1 [fem…    12 1 [fat… 1 [tow…        1    20
-## 3  2808 14h          14 NA          2 [mal…    12 4 [pre… 1 [tow…        1    25
-## 4  2808 14h          15  2 [LWOO/V… 2 [mal…    12 1 [fat… 1 [tow…        4    30
-## 5  2808 14h          16  2 [LWOO/V… 1 [fem…    13 1 [fat… 1 [tow…        3    NA
-## 6  2808 14h          17  2 [LWOO/V… 2 [mal…    12 2 [pre… 1 [tow…        2    NA
-## # ℹ 413 more variables: amoufria &lt;dbl+lbl&gt;, impofria &lt;dbl+lbl&gt;,
-## #   pracsup1 &lt;dbl+lbl&gt;, pracsup2 &lt;dbl+lbl&gt;, pracsup3 &lt;dbl+lbl&gt;,
-## #   pracsup4 &lt;dbl+lbl&gt;, pracsup5 &lt;dbl+lbl&gt;, pracsup6 &lt;dbl+lbl&gt;,
-## #   pracsup7 &lt;dbl+lbl&gt;, pracsup8 &lt;dbl+lbl&gt;, pracsup9 &lt;dbl+lbl&gt;,
-## #   pracsu10 &lt;dbl+lbl&gt;, pracsu11 &lt;dbl+lbl&gt;, pracsu12 &lt;dbl+lbl&gt;,
-## #   emosup1 &lt;dbl+lbl&gt;, emosup2 &lt;dbl+lbl&gt;, emosup3 &lt;dbl+lbl&gt;, emosup4 &lt;dbl+lbl&gt;,
-## #   emosup5 &lt;dbl+lbl&gt;, emosup6 &lt;dbl+lbl&gt;, emosup7 &lt;dbl+lbl&gt;, …</code></pre>
+##    date schoolnr namenr advice        sex       age place1  place2  siblings money amoufria impofria
+##   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl+lbl&gt;     &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt;
+## 1  2808 14h          12  2 [LWOO/VMB… 1 [fem…    13 1 [fat… 1 [tow…        1    10 2 [scho… 2 [scho…
+## 2  2808 14h          13  2 [LWOO/VMB… 1 [fem…    12 1 [fat… 1 [tow…        1    20 6 [clas… 5 [clas…
+## 3  2808 14h          14 NA            2 [mal…    12 4 [pre… 1 [tow…        1    25 3 [outs… 3 [outs…
+## 4  2808 14h          15  2 [LWOO/VMB… 2 [mal…    12 1 [fat… 1 [tow…        4    30 1 [clas… 1 [clas…
+## 5  2808 14h          16  2 [LWOO/VMB… 1 [fem…    13 1 [fat… 1 [tow…        3    NA 3 [outs… 3 [outs…
+## 6  2808 14h          17  2 [LWOO/VMB… 2 [mal…    12 2 [pre… 1 [tow…        2    NA 2 [scho… 2 [scho…
+## # ℹ 411 more variables: pracsup1 &lt;dbl+lbl&gt;, pracsup2 &lt;dbl+lbl&gt;, pracsup3 &lt;dbl+lbl&gt;,
+## #   pracsup4 &lt;dbl+lbl&gt;, pracsup5 &lt;dbl+lbl&gt;, pracsup6 &lt;dbl+lbl&gt;, pracsup7 &lt;dbl+lbl&gt;,
+## #   pracsup8 &lt;dbl+lbl&gt;, pracsup9 &lt;dbl+lbl&gt;, pracsu10 &lt;dbl+lbl&gt;, pracsu11 &lt;dbl+lbl&gt;,
+## #   pracsu12 &lt;dbl+lbl&gt;, emosup1 &lt;dbl+lbl&gt;, emosup2 &lt;dbl+lbl&gt;, emosup3 &lt;dbl+lbl&gt;, emosup4 &lt;dbl+lbl&gt;,
+## #   emosup5 &lt;dbl+lbl&gt;, emosup6 &lt;dbl+lbl&gt;, emosup7 &lt;dbl+lbl&gt;, emosup8 &lt;dbl+lbl&gt;, emosup9 &lt;dbl+lbl&gt;,
+## #   emosup10 &lt;dbl+lbl&gt;, emosup11 &lt;dbl+lbl&gt;, emosup12 &lt;dbl+lbl&gt;, basis1 &lt;dbl+lbl&gt;, basis2 &lt;dbl+lbl&gt;,
+## #   basis3 &lt;dbl+lbl&gt;, basis4 &lt;dbl+lbl&gt;, basis5 &lt;dbl+lbl&gt;, basis6 &lt;dbl+lbl&gt;, basis7 &lt;dbl+lbl&gt;, …</code></pre>
 <pre class="r"><code>class12b &lt;- PupilsWaveV %&gt;% 
   filter(schoolnr == &quot;12b&quot;)  # keep only one class</code></pre>
 <p>3.2</p>
@@ -634,14 +859,15 @@ t.test(degree~sex, data = df_deg, alternative = &quot;greater&quot;)</code></pre
 V(p)$degree &lt;- degree(p)
 plot(p, vertex.size = V(p)$degree+8, vertex.color = V(p)$sex, margin= -0.1)</code></pre>
 <p><img src="tutorial_1_files/figure-html/unnamed-chunk-21-2.png" alt="" width="672" /></p>
-<p>4</p>
+</div>
+<div id="section-3" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> 4</h1>
 <pre class="r"><code>library(spdep) #We need the spdep package for the spatial weight matrix and for the Moran&#39;s I test</code></pre>
 <pre><code>## Warning: package &#39;spdep&#39; was built under R version 4.5.3</code></pre>
 <pre><code>## Loading required package: spData</code></pre>
 <pre><code>## Warning: package &#39;spData&#39; was built under R version 4.5.3</code></pre>
-<pre><code>## To access larger datasets in this package, install the spDataLarge
-## package with: `install.packages(&#39;spDataLarge&#39;,
-## repos=&#39;https://nowosad.github.io/drat/&#39;, type=&#39;source&#39;)`</code></pre>
+<pre><code>## To access larger datasets in this package, install the spDataLarge package with:
+## `install.packages(&#39;spDataLarge&#39;, repos=&#39;https://nowosad.github.io/drat/&#39;, type=&#39;source&#39;)`</code></pre>
 <pre><code>## Loading required package: sf</code></pre>
 <pre><code>## Warning: package &#39;sf&#39; was built under R version 4.5.3</code></pre>
 <pre><code>## Linking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE</code></pre>
@@ -657,14 +883,17 @@ plot(p, vertex.size = V(p)$degree+8, vertex.color = V(p)$sex, margin= -0.1)</cod
 ## Attaching package: &#39;spatialreg&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:spdep&#39;:
 ## 
-##     get.ClusterOption, get.coresOption, get.mcOption,
-##     get.VerboseOption, get.ZeroPolicyOption, set.ClusterOption,
-##     set.coresOption, set.mcOption, set.VerboseOption,
-##     set.ZeroPolicyOption</code></pre>
+##     get.ClusterOption, get.coresOption, get.mcOption, get.VerboseOption,
+##     get.ZeroPolicyOption, set.ClusterOption, set.coresOption, set.mcOption,
+##     set.VerboseOption, set.ZeroPolicyOption</code></pre>
 <p>4.1</p>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogInR1dG9yaWFsXzEiDQpvdXRwdXQ6DQogIGh0bWxfZG9jdW1lbnQ6DQogICAgc2VsZl9jb250YWluZWQ6IGZhbHNlDQotLS0NCg0KIyAxIA0KTG9hZGluZyBzb21lIHBhY2thZ2VzIA0KYGBge3J9DQpsaWJyYXJ5KG5ldHdvcmspDQpsaWJyYXJ5KGlncmFwaCkNCmxpYnJhcnkocmVzaGFwZTIpDQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KMS4xLjEgRnJvbSBhZGphY2VuY3kgbWF0cml4IHRvIGlncmFwaA0KYGBge3J9DQp1cmwxIDwtICJodHRwczovL2dpdGh1Yi5jb20vcmVuc2VjL3Nhc3IwOC9yYXcvbWFpbi9nX2Fkal9tYXRyaXhfc2ltcGxlLmNzdiINCmdfbWF0cml4IDwtIHJlYWQuY3N2KGZpbGUgPSB1cmwxLCBoZWFkZXIgPSBGQUxTRSkNCmdfbWF0cml4DQpjbGFzcyhnX21hdHJpeCkNCmdfbWF0cml4IDwtIGFzLm1hdHJpeChnX21hdHJpeCkNCmdfbWF0cml4DQpyb3duYW1lcyhnX21hdHJpeCkgPC0gMTpucm93KGdfbWF0cml4KQ0KY29sbmFtZXMoZ19tYXRyaXgpIDwtIDE6bmNvbChnX21hdHJpeCkNCmdfbWF0cml4DQojIEFuc3dlcjogNSBub2RlcywgNCBlZGdlcw0KZ19ub2Rlc19hZ2UgPC0gcmVhZC5jc3YoZmlsZSA9ICJodHRwczovL2dpdGh1Yi5jb20vcmVuc2VjL3Nhc3IwOC9yYXcvbWFpbi9nX25vZGVzX2FnZS5jc3YiKQ0KZ19ub2Rlc19hZ2UNCmcgPC0gZ3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KGdfbWF0cml4KQ0KY2xhc3MoZykNCmcNCnBsb3QoZykNCmcgPC0gc2V0X3ZlcnRleF9hdHRyKGcsIA0KICAgICAgICAgICAgICAgICAgICAgbmFtZSA9ICJhZ2UiLA0KICAgICAgICAgICAgICAgICAgICAgdmFsdWUgPSBnX25vZGVzX2FnZSRhZ2UpDQpgYGANCjEuMS4yDQpgYGB7cn0NCmdfZWxpc3QgPC0gcmVhZC5jc3YoZmlsZSA9ICJodHRwczovL2dpdGh1Yi5jb20vcmVuc2VjL3Nhc3IwOC9yYXcvbWFpbi9nX2VsaXN0LmNzdiIpDQpnX2VsaXN0DQpnX2Zyb21fZWxpc3QgPC0gZ3JhcGhfZnJvbV9kYXRhX2ZyYW1lKGdfZWxpc3QpIA0KcGxvdChnX2Zyb21fZWxpc3QpDQpnX2Zyb21fZWxpc3QgPC0gZ3JhcGhfZnJvbV9kYXRhX2ZyYW1lKGdfZWxpc3QsIHZlcnRpY2VzID0gZ19ub2Rlc19hZ2UpIA0KcGxvdChnX2Zyb21fZWxpc3QpDQoNCiMgQXNzaWdubWVudDoNCmlncmFwaF9mcm9tX2VsaXN0IDwtIGdyYXBoX2Zyb21fZGF0YV9mcmFtZShnX2VsaXN0LCB2ZXJ0aWNlcyA9IGdfbm9kZXNfYWdlKSAlPiUNCiAgcGxvdCgpDQpgYGANCjEuMS4zDQpgYGB7cn0NCmdfYWRqX2xpc3QgPC0gcmVhZC5jc3YoZmlsZSA9ICJodHRwczovL2dpdGh1Yi5jb20vcmVuc2VjL3Nhc3IwOC9yYXcvbWFpbi9nX2Fkal9saXN0LmNzdiIpDQpnX2Fkal9saXN0DQpnX2VsaXN0X2Zyb21fYWxpc3QgPC0gZ19hZGpfbGlzdA0KZ19lbGlzdF9mcm9tX2FsaXN0IDwtICBzZWxlY3QoZ19lbGlzdF9mcm9tX2FsaXN0LCBpZCwgZnJpZW5kMTpmcmllbmQyKSAjIGtlZXAgb25seSB0aGUgbmV0d29yayB2YXJpYWJsZXMgKGFuZCBpZCkNCmdfZWxpc3RfZnJvbV9hbGlzdCA8LSAgbWVsdChnX2VsaXN0X2Zyb21fYWxpc3QsIGlkLnZhcnMgPSAiaWQiKSAjIGZyb20gdGhlIHJlc2hhcGUyIHBhY2thZ2UNCmdfZWxpc3RfZnJvbV9hbGlzdA0KZ19lbGlzdF9mcm9tX2FsaXN0IDwtIGdfYWRqX2xpc3QgJT4lIA0KICBzZWxlY3QoaWQsIGZyaWVuZDE6ZnJpZW5kMikgJT4lICMga2VlcCBvbmx5IHRoZSBuZXR3b3JrIHZhcmlhYmxlcyAoYW5kIGlkKQ0KICBtZWx0KCBpZC52YXJzID0gImlkIikgIyBmcm9tIHRoZSByZXNoYXBlMiBwYWNrYWdlDQpnX2Fkal9saXN0ICU+JSAjICh3ZSBkb24ndCBzYXZlIGl0IGludG8gYW4gb2JqZWN0IGFzIGFib3ZlIHRoaXMgdGltZSwgc2luY2Ugd2UganVzdCB3YW50IHRvIHNob3cgdGhhdCB0aGUgcmVzdWx0IGlzIHRoZSBzYW1lKQ0KICBzZWxlY3QoaWQsIGZyaWVuZDE6ZnJpZW5kMikgJT4lICNrZWVwIG9ubHkgdGhlIG5ldHdvcmsgdmFyaWFibGVzIChhbmQgaWQpDQogIHBpdm90X2xvbmdlcihjKGZyaWVuZDEsIGZyaWVuZDIpKQ0KZ19lbGlzdF9mcm9tX2FsaXN0IDwtIGdfZWxpc3RfZnJvbV9hbGlzdCU+JSANCiAgZmlsdGVyKCFpcy5uYSh2YWx1ZSkpICU+JSAjIGRyb3AgdGhlIG1pc3NpbmdzDQogIHJlbmFtZShmcm9tID0iaWQiLCB0byA9ICJ2YWx1ZSIsIHNvdXJjZXZhcj0gInZhcmlhYmxlIikgJT4lICNqdXN0IG5pY2UgZm9yIGludGVycHJldGF0aW9uDQogIHJlbG9jYXRlKHRvLCAuYWZ0ZXI9ZnJvbSkgI21vdmUgYXJvdW5kIHRoZSBjb2x1bW5zDQojIEFuc3dlcjogVG8ga2VlcCB0cmFjayBvZiB0aGUgbWVhbmluZyBvZiB0aWVzLiBGb3IgZXhhbXBsZSwgdGhlIGZpcnN0IGZyaWVuZCBwZW9wbGUgbGlzdCBtYXkgYmUgdGhlIGJlc3QgZnJpZW5kLiANCmdfZWxpc3RfZnJvbV9hbGlzdA0KZ19mcm9tX2FsaXN0IDwtIGdyYXBoX2Zyb21fZGF0YV9mcmFtZShnX2VsaXN0X2Zyb21fYWxpc3QpICNUaGlzIGlzIGEgcHJvcGVyIGlncmFwaCBncmFwaCBvYmplY3QNCnBsb3QoZ19mcm9tX2FsaXN0KQ0Kbm9kZWxpc3QgPC0gc2VsZWN0KGdfYWRqX2xpc3QsaWQsYWdlKQ0KZ19mcm9tX2FsaXN0IDwtIGdyYXBoX2Zyb21fZGF0YV9mcmFtZShnX2VsaXN0X2Zyb21fYWxpc3QsIHZlcnRpY2VzID0gbm9kZWxpc3QpICNUaGlzIGlzIGEgcHJvcGVyIGlncmFwaCBncmFwaCBvYmplY3QNCnBsb3QoZ19mcm9tX2FsaXN0KQ0KDQojIEFzc2lnbm1lbnQNCg0KZ19lbGlzdF9mcm9tX2FsaXN0IDwtIGdfYWRqX2xpc3QgJT4lDQogIHNlbGVjdChpZCwgZnJpZW5kMTpmcmllbmQyKSAlPiUNCiAgbWVsdChpZC52YXJzID0gImlkIikgJT4lDQogIGZpbHRlcighaXMubmEodmFsdWUpKSAlPiUNCiAgcmVuYW1lKGZyb20gPSJpZCIsIHRvID0gInZhbHVlIiwgc291cmNldmFyPSAidmFyaWFibGUiKSAlPiUgDQogIHJlbG9jYXRlKHRvLCAuYWZ0ZXI9ZnJvbSkNCg0KZ19mcm9tX2FhbGlzdCA8LSBncmFwaF9mcm9tX2RhdGFfZnJhbWUoDQogIGdfZWxpc3RfZnJvbV9hbGlzdCwNCiAgdmVydGljZXMgPSBzZWxlY3QoZ19hZGpfbGlzdCwgaWQsIGFnZSkNCikNCg0KcGxvdChnX2Zyb21fYWFsaXN0KQ0KDQpgYGANCjEuMi4xDQpgYGB7cn0NCmdfYWRqX21hdHJpeCA8LSBhc19hZGphY2VuY3lfbWF0cml4KGcsIHNwYXJzZSA9IEZBTFNFKQ0KZ19hZGpfbWF0cml4DQphbGwoZ19hZGpfbWF0cml4ID09IGdfbWF0cml4KQ0KYGBgDQoxLjIuMg0KYGBge3J9DQpnX2VkZ2VsaXN0IDwtIGlncmFwaDo6YXNfZGF0YV9mcmFtZShnX2Zyb21fZWxpc3QsIHdoYXQgPSAiZWRnZXMiKSANCmdfZWRnZWxpc3QgDQppZ3JhcGg6OmFzX2RhdGFfZnJhbWUoZ19mcm9tX2VsaXN0LCB3aGF0ID0gInZlcnRpY2VzIikgDQpgYGANCjEuMi4zDQpgYGB7cn0NCmVkZ2VsaXN0XzIgPC0gaWdyYXBoOjphc19kYXRhX2ZyYW1lKGdfZnJvbV9hbGlzdCwgd2hhdCA9ICJlZGdlcyIpDQpub2RlbGlzdF8yIDwtIGlncmFwaDo6YXNfZGF0YV9mcmFtZShnX2Zyb21fYWxpc3QsIHdoYXQgPSAidmVydGljZXMiKQ0KIyBOb3RlIHRoZSB1c2Ugb2YgdGhlICJuYW1lc3BhY2UiICJpZ3JhcGg6OiIgaGVyZSwgdG8gaW5kaWNhdGUgdGhhdCB3ZSBuZWVkIHRoZSBpZ3JhcGggZnVuY3Rpb24gaGVyZSwgbm90IHRoZSBmdW5jdGlvbiB3aXRoIHRoZSBzYW1lIG5hbWUgZnJvbSB0aGUgZHBseXIvdGlkeXZlcnNlIHBhY2thZ2UNCg0KZCA8LSBlZGdlbGlzdF8yICU+JQ0KICByZW5hbWUoaWQgPSAiZnJvbSIpICU+JSANCiAgcGl2b3Rfd2lkZXIoIGlkX2NvbHMgPSBpZCwgbmFtZXNfZnJvbSA9IHNvdXJjZXZhciwgdmFsdWVzX2Zyb20gPSB0byApICU+JSANCiAgbWVyZ2Uobm9kZWxpc3RfMiwgYnkueCA9ICJpZCIsIGJ5LnkgPSAibmFtZSIsIGFsbC55ID0gVFJVRSApICU+JSANCiAgcmVsb2NhdGUoYWdlLCAuYWZ0ZXIgPSBpZCkgJT4lIA0KICB0eXBlX2NvbnZlcnQoKSAjYXNfZGF0YV9mcmFtZSByZXR1cm5zIGNoYXJhY3RlcnM7IHRoaXMgdHJhbnNmb3JtcyBpdCBiYWNrIHRvIG51bWVyaWMNCmQNCmBgYA0KMS4zDQpgYGB7cn0NCmdfbnAgPC0gYXMubmV0d29yayhnX2VsaXN0X2Zyb21fYWxpc3QsIG1hdHJpeC50eXBlID0gImVkZ2VsaXN0IiwgdmVydGljZXMgPSBub2RlbGlzdCkNCmdfbnANCnBsb3QoZ19ucCkNCmBgYA0KMS40DQpgYGB7cn0NCmdfbW9kIDwtIGRlbGV0ZV92ZXJ0aWNlcyhnLDIpDQpwbG90KGdfbW9kKQ0KZ19tb2QgPC0gZGVsZXRlX3ZlcnRpY2VzKGcsd2hpY2goVihnKSRhZ2UgPT0gMjEpKQ0KcGxvdChnX21vZCkNCg0KIyBBc3NpZ25tZW50DQpnX21vZCA8LSBkZWxldGUudmVydGljZXMoZyx3aGljaChpcy5uYShWKGcpJGFnZSkpKQ0KcGxvdChnX21vZCkNCg0KVihnKSRnZW5kZXIgPC0gYygibWFsZSIsICJmZW1hbGUiLCAiZmVtYWxlIiwgIm90aGVyIiwgIm1hbGUiKSANCmcNCmdfcmV2IDwtIHJldmVyc2VfZWRnZXMoZykNCnBsb3QoZ19yZXYpDQpnX3VuaW9uIDwtIGlncmFwaDo6dW5pb24oZywgZ19yZXYpDQojIEFuc3dlcjogQWxsIGFycm93cyB3aWxsIGJlIHR3by1zaWRlZD8NCnBsb3QoZ191bmlvbikNCmdfdW5kaXIgPC0gYXNfdW5kaXJlY3RlZChnKQ0KcGxvdChnX3VuZGlyKQ0KIyBBbnN3ZXI6IE9uZSBpcyB1bmRpcmVjdGVkIGFuZCBvbmUgaXMgZGlyZWN0ZWQgaW4gYm90aCBkaXJlY3Rpb25zLg0KYGBgDQoNCiMgMg0KYGBge3J9DQpsaWJyYXJ5KGlncmFwaCkNCnogPC0gbWFrZV9ncmFwaCgiWmFjaGFyeSIpDQp6DQpwbG90KHopDQppc19kaXJlY3RlZCh6KQ0KYGBgDQoyLjEuMQ0KYGBge3J9DQp2Y291bnQoeikNCmVjb3VudCh6KQ0KYGBgDQoyLjEuMg0KYGBge3J9DQplZGdlX2RlbnNpdHkoeikNCnokZGVuc2l0eSA8LSBlZGdlX2RlbnNpdHkoeikNCnoNCmBgYA0KMi4xLjMNCmBgYHtyfQ0KY291bnRfY29tcG9uZW50cyh6KQ0KYGBgDQoyLjEuNA0KYGBge3J9DQpkaWFtZXRlcih6KQ0KbWVhbl9kaXN0YW5jZSh6KQ0KYGBgDQoyLjEuNQ0KYGBge3J9DQp0cmFuc2l0aXZpdHkoeiwgdHlwZT0iYXZlcmFnZSIpDQpgYGANCjIuMi4xDQpgYGB7cn0NCmRlZ3JlZSh6KQ0Kc3VtbWFyeShkZWdyZWUoeikpDQpoaXN0KGRlZ3JlZSh6KSkNClYoeikkZGVncmVlIDwtIGRlZ3JlZSh6KQ0KI1dlIGFkZCAgKyA4IHRvIGRlZ3JlZSB0byBhdm9pZCB0aGF0IHRoZSBsb3dlc3QtZGVncmVlIG5vZGVzIGJlY29tZSByZWFsbHkgc21hbGwgYW5kIHNwZWNpZnkgbWFyZ2luID0gLTAuMSB0byByZWR1Y2UgdGhlIHdoaXRlc3BhY2UgYXJvdW5kIHRoZSBwbG90DQpwbG90KHosIHZlcnRleC5zaXplID0gVih6KSRkZWdyZWUrOCwgbWFyZ2luPSAtMC4xKQ0KZGVncmVlKHosIHYgPSAzKQ0KYGBgDQoyLjIuMg0KYGBge3J9DQpiZXR3ZWVubmVzcyh6KQ0KeiA8LSB6ICU+JSANCiAgc2V0X3ZlcnRleF9hdHRyKA0KICAgIG5hbWUgPSAiYmV0d2Vlbm5lc3MiLA0KICAgIHZhbHVlID0gYmV0d2Vlbm5lc3MoeikNCiAgKQ0KYGBgDQoyLjIuMw0KYGBge3J9DQpWKHopJGNsb3NlbmVzcyA8LSBjbG9zZW5lc3MoeikNCmBgYA0KDQojIDMNCmBgYHtyfQ0KbGlicmFyeShpZ3JhcGgpDQpsaWJyYXJ5KGhhdmVuKSAjIHRvIHJlYWQgU3RhdGEgZmlsZXMNCmxpYnJhcnkocmVzaGFwZTIpDQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KMy4xDQpgYGB7cn0NClB1cGlsc1dhdmVWIDwtIHJlYWRfZHRhKGZpbGUgPSAiUHVwaWxzV2F2ZVYuZHRhIikNCmhlYWQoUHVwaWxzV2F2ZVYpDQp0YWlsKFB1cGlsc1dhdmVWKQ0KY2xhc3MxMmIgPC0gUHVwaWxzV2F2ZVYgJT4lIA0KICBmaWx0ZXIoc2Nob29sbnIgPT0gIjEyYiIpICAjIGtlZXAgb25seSBvbmUgY2xhc3MNCmBgYA0KMy4yDQpgYGB7cn0NCiMgMSBBZGphY2VuY3kgbGlzdCB0byBpZ3JhcGggDQpwX2VsaXN0X2Zyb21fYWxpc3QgPC0gY2xhc3MxMmIgJT4lDQogIHNlbGVjdChuYW1lbnIsIGZyaWVuZDE6ZnJpZW5kMTIpICU+JQ0KICBtZWx0KGlkLnZhcnMgPSAibmFtZW5yIikgJT4lDQogIGZpbHRlcighaXMubmEodmFsdWUpKSAlPiUNCiAgcmVuYW1lKGZyb20gPSJuYW1lbnIiLCB0byA9ICJ2YWx1ZSIsIHNvdXJjZXZhcj0gInZhcmlhYmxlIikgJT4lIA0KICByZWxvY2F0ZSh0bywgLmFmdGVyPWZyb20pDQpwX2FhbGlzdCA8LSBncmFwaF9mcm9tX2RhdGFfZnJhbWUocF9lbGlzdF9mcm9tX2FsaXN0LCB2ZXJ0aWNlcyA9IHNlbGVjdChjbGFzczEyYixuYW1lbnIsYWdlLHNleCkpDQpwIDwtIHBfYWFsaXN0DQojIDIgQ2hlY2tpbmcgaWYgZGlyZWN0ZWQNCmlzX2RpcmVjdGVkKHApDQojIDMgVmlzdWFsaXplDQpwbG90KHApDQojIDQgRml2ZSBudW1iZXIgc3VtbWFyeQ0KdmNvdW50KHApDQplY291bnQocCkNCmVkZ2VfZGVuc2l0eShwKQ0KY291bnRfY29tcG9uZW50cyhwKQ0KZGlhbWV0ZXIocCkNCm1lYW5fZGlzdGFuY2UocCkNCnRyYW5zaXRpdml0eShwLCB0eXBlID0gImF2ZXJhZ2UiKQ0KIyA1IFRlc3QgaHlwb3RoZXNpcyB0aGF0IGdpcmxzIGhhdmUgaGlnaGVyIGRlZ3JlZSB0aGFuIGJveXMNCmRlZyA8LSBkZWdyZWUocCkNCmRmX2RlZyA8LSBkYXRhLmZyYW1lKA0KICBzZXggICAgPSBWKHApJHNleCwNCiAgZGVncmVlID0gZGVnDQopDQp0LnRlc3QoZGVncmVlfnNleCwgZGF0YSA9IGRmX2RlZywgYWx0ZXJuYXRpdmUgPSAiZ3JlYXRlciIpDQojIDYNCiNXZSBhZGQgICsgOCB0byBkZWdyZWUgdG8gYXZvaWQgdGhhdCB0aGUgbG93ZXN0LWRlZ3JlZSBub2RlcyBiZWNvbWUgcmVhbGx5IHNtYWxsIGFuZCBzcGVjaWZ5IG1hcmdpbiA9IC0wLjEgdG8gcmVkdWNlIHRoZSB3aGl0ZXNwYWNlIGFyb3VuZCB0aGUgcGxvdA0KVihwKSRkZWdyZWUgPC0gZGVncmVlKHApDQpwbG90KHAsIHZlcnRleC5zaXplID0gVihwKSRkZWdyZWUrOCwgdmVydGV4LmNvbG9yID0gVihwKSRzZXgsIG1hcmdpbj0gLTAuMSkNCmBgYA0KDQojIDQNCmBgYHtyfQ0KbGlicmFyeShzcGRlcCkgI1dlIG5lZWQgdGhlIHNwZGVwIHBhY2thZ2UgZm9yIHRoZSBzcGF0aWFsIHdlaWdodCBtYXRyaXggYW5kIGZvciB0aGUgTW9yYW4ncyBJIHRlc3QNCmxpYnJhcnkoc3BhdGlhbHJlZykgI1dlIG5lZWQgdGhlIHNwYXRpYWxyZWcgcGFja2FnZSBmb3IgdGhlIHNwYXRpYWwgbGFnIGFuZCBzcGF0aWFsIGVycm9yIG1vZGVscw0KYGBgDQo0LjENCg==</div>
 
 
-
+</div>
+</div>
 
 </div>
 
@@ -696,7 +925,42 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("tutorial_1.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
