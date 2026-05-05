@@ -259,3 +259,150 @@ library(spdep) #We need the spdep package for the spatial weight matrix and for 
 library(spatialreg) #We need the spatialreg package for the spatial lag and spatial error models
 ```
 4.1
+```{r}
+data(columbus)
+mydata <- columbus
+attach(mydata)
+neighbors <- col.gal.nb
+class(neighbors)
+listw <- nb2listw(neighbors, style = "W")
+summary(listw)
+```
+4.2
+```{r}
+summary(CRIME)
+summary(INC)
+summary(HOVAL)
+plot(neighbors, coords)
+olsreg <- lm(CRIME ~ INC + HOVAL)
+summary(olsreg)
+```
+4.3.1
+```{r}
+moran.test(CRIME, listw)
+```
+4.3.2
+```{r}
+lm.LMtests(olsreg, listw, test=c("LMlag", "LMerr"))
+```
+4.3.3
+```{r}
+slm <- lagsarlm(CRIME ~ INC + HOVAL, data = mydata, listw, Durbin = "FALSE")
+summary(slm)
+im<-impacts(slm, listw = listw, zstats=TRUE, R=200)
+sums<-summary(im,  zstats=T)
+data.frame(sums$res)
+data.frame(sums$pzmat)
+```
+4.3.4
+```{r}
+sem <- errorsarlm(CRIME ~ INC + HOVAL, data = mydata, listw, Durbin = FALSE)
+summary(sem)
+```
+4.3.5
+```{r}
+sac <- sacsarlm(CRIME ~ INC + HOVAL, data = mydata, listw, Durbin = FALSE)
+summary(sac)
+```
+4.3.6
+```{r}
+sdm <- lagsarlm(CRIME ~ INC + HOVAL, data = mydata, listw, Durbin = TRUE)
+summary(sdm)
+```
+4.3.7
+```{r}
+sdem <- errorsarlm(CRIME ~ INC + HOVAL, data = mydata, listw, Durbin = TRUE)
+summary(sdem)
+```
+4.3.8
+```{r}
+gnm <- sacsarlm(CRIME ~ INC + HOVAL, data = mydata, listw, Durbin = TRUE)
+summary(gnm)
+```
+# 4.4
+Open the dataset “PupilsWaveV.dta”.
+```{r}
+PupilsWaveV <- read_dta(file = "PupilsWaveV.dta")
+```
+Estimate a linear regression model of doing homework (acthomew) on sex (sex) while controlling for age (age). For this purpose, reverse the scale of acthomew so a higher value means more likely to do homework. Also, reverse the coding of sex and create a dummy variable so 1 is female and 0 is male. This is more in line with the literature.
+```{r}
+# acthomew
+library(haven)
+PupilsWaveV$acthomew_num <- as.numeric(PupilsWaveV$acthomew)
+PupilsWaveV$acthomew_num[PupilsWaveV$acthomew_num == 9] <- NA
+table(PupilsWaveV$acthomew_num, useNA = "ifany")
+PupilsWaveV$acthomew_rev <- 6 - PupilsWaveV$acthomew_num
+# sex
+PupilsWaveV$female <- ifelse(PupilsWaveV$sex == 2, 1, 0)
+# regression model 
+olsreg <- lm(acthomew_rev ~ female + age, data=PupilsWaveV)
+summary(olsreg)
+```
+Estimate a multilevel linear model where you take class characteristics into account.
+```{r}
+library(lme4)
+ml <- lmer(acthomew_rev ~ female + age + (1|schoolnr), PupilsWaveV)
+summary(ml)
+```
+In addition to gender differences, we are now also interested in whether peers influence one’s homework behavior. From now on consider only Class 12b. Construct an adjacency matrix of best friends.
+```{r}
+class12b <- filter(PupilsWaveV, schoolnr == "12b")
+friendsadjlist <- class12b %>%
+  select(namenr, friend1:friend12)
+class(friendsadjlist)
+friendsedgelist <- class12b %>%
+  select(namenr, friend1:friend12) %>%
+  pivot_longer(c(friend1:friend12)) %>%
+  filter(!is.na(value)) %>%
+  rename(from ="namenr", to ="value", sourcevar ="name") %>%
+  relocate(to, .after = from)
+friendsnodelist <- class12b %>%
+  select(namenr, female, age, acthomew_rev) %>%
+  rename(name = "namenr")
+friendsigraph <- graph_from_data_frame(friendsedgelist, vertices = friendsnodelist)
+class(friendsigraph)
+plot(friendsigraph, edge.arrow.size = .5)
+friendsadjmatrix <- as_adjacency_matrix(friendsigraph, sparse = F)
+class(friendsadjmatrix)
+```
+Construct a row-standardized spatial weight matrix as a weights list object. Set the option ‘zero.policy’ to TRUE because you have isolates.
+```{r}
+friends <- mat2listw(friendsadjmatrix, row.names = NULL, zero.policy = T, style = "W")
+class(friends)
+```
+Conduct and interpret the Moran’s I test and the Lagrange multiplier tests. For the Lagrange multiplier tests, make sure you estimate a linear regression on Class 12b, not on the entire dataset.
+```{r}
+moran.test(class12b$acthomew_rev, friends, zero.policy = T)
+olsregnew <- lm(acthomew_rev ~ female + age, data=friendsnodelist)
+summary(olsregnew)
+lm.LMtests(olsregnew, friends, test = c("LMlag", "LMerr"), zero.policy = T)
+```
+Estimate a SLM and the impacts. Interpret the results.
+```{r}
+slm <- lagsarlm(acthomew_rev ~female + age, data = friendsnodelist, friends, zero.policy = T, Durbin = F)
+summary(slm)
+im<-impacts(slm, listw=friends, zstats=TRUE, R=200)
+sums<-summary(im,  zstats=T)
+data.frame(sums$res)
+data.frame(sums$pzmat)
+sums$direct
+sums$indirect
+sums$total
+```
+Estimate a SEM and a SAC. Interpret the results.
+```{r}
+sem <- errorsarlm(acthomew_rev ~ female + age, data = friendsnodelist, friends, zero.policy = TRUE, Durbin=FALSE)
+summary(sem)
+sac <- sacsarlm(acthomew_rev ~ female + age, data = friendsnodelist, friends, zero.policy = TRUE, Durbin=FALSE)
+summary(sac)
+```
+Estimate a SDM, SDEM, and GNM. Interpret the results.
+```{r}
+sdm <- lagsarlm(acthomew_rev ~ female + age, data = friendsnodelist, friends, zero.policy = TRUE, Durbin=TRUE)
+summary(sdm)
+sdem <- errorsarlm(acthomew_rev ~ female + age, data = friendsnodelist, friends, zero.policy = TRUE, Durbin=TRUE)
+summary(sdem)
+gnm <- sacsarlm(acthomew_rev ~ female + age, data = friendsnodelist, friends, zero.policy = TRUE, Durbin=TRUE)
+summary(gnm)
+```
+What is your conclusion after interpreting all these models?
