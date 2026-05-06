@@ -406,3 +406,36 @@ gnm <- sacsarlm(acthomew_rev ~ female + age, data = friendsnodelist, friends, ze
 summary(gnm)
 ```
 What is your conclusion after interpreting all these models?
+
+
+# 5 
+```{r}
+library(network)
+library(intergraph)
+library(sna)
+library(igraph)
+library(ergm)
+library(tidyverse) 
+library(haven)
+load(url("https://github.com/rensec/sasr08/raw/main/classnet.rdata"))
+summary(classnet)
+V(classnet)$sex <-as.numeric(V(classnet)$sex)
+g <- asNetwork(classnet)
+g
+gplot(g,  vertex.col=g %v% "sex"*2)
+```
+```{r}
+M1.g<-ergm(g ~ edges +  mutual )
+summary(M1.g)
+```
+```{r}
+M2.g<-ergm(g ~ edges + mutual +  nodefactor("sex", levels = 2) + nodematch("sex" ))
+
+summary(M2.g)
+```
+```{r}
+M2.g.gof <- gof(M2.g)
+M2.g.gof
+plot(M2.g.gof)
+```
+
