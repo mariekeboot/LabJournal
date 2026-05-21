@@ -1,0 +1,35 @@
+---
+title: "References"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# References
+
+Boulton, M. J., Trueman, M., Chau, C., Whitehand, C., & Amatya, K. (1999). Concurrent and longitudinal links between friendship and peer victimization: Implications for befriending interventions. Journal of Adolescence, 22(4), 461–466. https://doi.org/10.1006/jado.1999.0240
+
+Boulton, M. J. (2012). The effects of victim of bullying reputation on adolescents’ choice of friends: Mediation by fear of becoming a victim of bullying, moderation by victim status, and implications for befriending interventions. Journal Of Experimental Child Psychology, 114(1), 146–160. https://doi.org/10.1016/j.jecp.2012.05.001 
+
+Calati, R., Ferrari, C., Brittner, M., Oasi, O., Olié, E., Carvalho, A. F., & Courtet, P. (2019). Suicidal thoughts and behaviors and social isolation: A narrative review of the literature. Journal of Affective Disorders, 245, 653–667. https://doi.org/10.1016/j.jad.2018.11.022
+
+Cowie, H. (2013). The immediate and long-term effects of bullying. In Bullying. Routledge.
+
+Healy, Mary. “Should Children Have Best Friends?” Studies in Philosophy and Education 36, no. 2 (2017): 183–95. https://doi.org/10.1007/s11217-016-9512-9.
+
+Horita, Yutaka, and Miku Yamazaki. “Generalized Trust Rather than Perception of Relational Mobility Correlates with Nominating Close Friends in a Social Network.” Japanese Psychological Research 67, no. 3 (2025): 272–83. https://doi.org/10.1111/jpr.12451.
+
+Jiang, C., & Shi, J. (2024). The Long Arm of Childhood Bullying Victimization: Associations with Social Isolation, Gender Differences and Depression in Later Life. Journal of Interpersonal Violence, 39(13–14), 3184–3206. https://doi.org/10.1177/08862605241227980
+
+Kim, S., Woo, S., Song, Y., Jhung, K., Choi, J., Yang, Y. H., Kwack, Y. S., & Kim, Y. (2026). Reducing social isolation in schools: A social network analysis of the HOPE bullying prevention program. Child and Adolescent Psychiatry and Mental Health, 20(1), 45. https://doi.org/10.1186/s13034-026-01032-5
+
+La Greca, A. M., & Harrison, H. M. (2005). Adolescent Peer Relations, Friendships, and Romantic Relationships: Do They Predict Social Anxiety and Depression? Journal of Clinical Child & Adolescent Psychology, 34(1), 49–61. https://doi.org/10.1207/s15374424jccp3401_5
+
+Lodder, G. M. A., Scholte, R. H. J., Cillessen, A. H. N., & Giletta, M. (2015). Bully Victimization: Selection and Influence Within Adolescent Friendship Networks and Cliques. Journal Of Youth And Adolescence, 45(1), 132–144. https://doi.org/10.1007/s10964-015-0343-8 
+
+Marini, Z. A., Dane, A. V., Bosacki, S. L., & Cura, Y.-. (2006). Direct and indirect bully-victims: Differential psychosocial risk factors associated with adolescents involved in bullying and victimization. Aggressive Behavior, 32(6), 551–569. https://doi.org/10.1002/ab.20155
+
+Newman, M. L., Holden, G. W., & Delville, Y. (2005). Isolation and the stress of being bullied. Journal of Adolescence, 28(3), 343–357. https://doi.org/10.1016/j.adolescence.2004.08.002
+
+Robbins, B. G. (2015). From the general to the specific: How social trust motivates relational trust. Social Science Research, 55, 16–30. https://doi.org/10.1016/j.ssresearch.2015.09.004

@@ -15,8 +15,8 @@ navbar:
       menu:
       - text: "Tutorials week 1"
         href: tutorial_1.html
-      - text: "Page 2"
-        href: test_rmd.html
+      - text: "References"
+        href: Referencespage.html
         
         # here, other .Rmds can be added
 
